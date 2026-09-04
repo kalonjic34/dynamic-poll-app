@@ -10,17 +10,33 @@
 
   {{-- blade-formatter-disable --}}
   <style type="text/tailwindcss">
+    body {
+      @apply bg-slate-100 text-slate-900 antialiased;
+    }
+
     .btn {
-      @apply rounded-md px-2 py-1 text-center font-medium text-slate-700 shadow-sm ring-1 ring-slate-700/10 hover:bg-slate-50
+      @apply inline-flex items-center justify-center rounded-lg px-3 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-cyan-500/40;
+    }
+
+    .btn-primary {
+      @apply bg-cyan-700 text-white shadow-sm hover:bg-cyan-800;
+    }
+
+    .btn-secondary {
+      @apply bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50;
+    }
+
+    .btn-remove {
+      @apply shrink-0 text-slate-500 hover:bg-rose-50 hover:text-rose-700;
     }
 
     label {
-      @apply block uppercase text-slate-700 mb-2
+      @apply mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500;
     }
 
-    input, 
+    input,
     textarea {
-      @apply shadow-sm appearance-none border w-full py-2 px-3 text-slate-700 leading-tight focus:outline-none
+      @apply w-full appearance-none rounded-lg border border-slate-200 bg-white px-3 py-2.5 leading-tight text-slate-700 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-cyan-600 focus:ring-4 focus:ring-cyan-500/10;
     }
 
     .error {
@@ -32,8 +48,12 @@
   @livewireStyles
 </head>
 
-<body class="container mx-auto mt-10 mb-10 max-w-lg">
+<body class="min-h-screen px-4 py-8 sm:px-6 sm:py-14">
   @livewireScripts
+
+  <main class="mx-auto max-w-2xl">
+    @livewire('create-poll')
+  </main>
 </body>
 
 </html>
