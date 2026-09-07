@@ -1,58 +1,241 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Dynamic Poll App
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A simple dynamic polling application built with Laravel and Livewire. Users can create polls with multiple options and vote on available polls, with vote counts updating dynamically without requiring a full page reload.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+* Create polls with a custom question/title
+* Dynamically add and remove poll options
+* Validate poll titles and options
+* Support up to 10 poll options
+* View all available polls
+* Vote on poll options
+* Display vote counts for each option
+* Automatically refresh the poll list after creating a new poll
+* Responsive interface styled with Tailwind CSS
+* SQLite database for simple local development
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Built With
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* **Laravel 13**
+* **PHP 8.3+**
+* **Livewire 4**
+* **SQLite**
+* **Eloquent ORM**
+* **Blade**
+* **Tailwind CSS**
+* **Vite**
+* **Composer**
+* **NPM**
 
-## Learning Laravel
+## How It Works
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+The application is built around three main database models:
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* **Poll** - Stores the poll question/title.
+* **Option** - Stores the available choices belonging to a poll.
+* **Vote** - Stores votes associated with a poll option.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+The relationships between these models allow the application to retrieve polls together with their options and vote counts.
 
-## Agentic Development
+When a user creates a poll, Livewire handles the form interaction and validation. The poll and its options are then saved to the database.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+When a user votes, Livewire sends the request without requiring a traditional page refresh, and the updated vote count is displayed.
 
-```bash
-composer require laravel/boost --dev
+## Project Structure
 
-php artisan boost:install
+```text
+dynamic-poll-app/
+├── app/
+│   ├── Models/
+│   │   ├── Option.php
+│   │   ├── Poll.php
+│   │   ├── User.php
+│   │   └── Vote.php
+│   └── Providers/
+│
+├── database/
+│   ├── migrations/
+│   │   ├── create_polls_table.php
+│   │   ├── create_options_table.php
+│   │   └── create_votes_table.php
+│   └── seeders/
+│       └── DatabaseSeeder.php
+│
+├── resources/
+│   └── views/
+│       ├── components/
+│       │   ├── create-poll.blade.php
+│       │   └── polls.blade.php
+│       └── app.blade.php
+│
+├── routes/
+│   └── web.php
+│
+├── package.json
+├── composer.json
+└── vite.config.js
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## Getting Started
 
-## Contributing
+### Prerequisites
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Make sure you have the following installed:
 
-## Code of Conduct
+* PHP 8.3 or higher
+* Composer
+* Node.js and NPM
+* SQLite
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Installation
 
-## Security Vulnerabilities
+1. Clone the repository:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+git clone https://github.com/kalonjic34/dynamic-poll-app.git
+```
 
-## License
+2. Navigate into the project:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+cd dynamic-poll-app
+```
+
+3. Install PHP dependencies:
+
+```bash
+composer install
+```
+
+4. Create the environment file:
+
+```bash
+cp .env.example .env
+```
+
+On Windows PowerShell, you can use:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+5. Generate the application key:
+
+```bash
+php artisan key:generate
+```
+
+6. Create the SQLite database:
+
+```bash
+touch database/database.sqlite
+```
+
+On Windows, create an empty file named:
+
+```text
+database/database.sqlite
+```
+
+7. Run the database migrations:
+
+```bash
+php artisan migrate
+```
+
+8. Install frontend dependencies:
+
+```bash
+npm install
+```
+
+9. Start the Vite development server:
+
+```bash
+npm run dev
+```
+
+10. In another terminal, start the Laravel development server:
+
+```bash
+php artisan serve
+```
+
+The application will be available at:
+
+```text
+http://127.0.0.1:8000
+```
+
+## Usage
+
+### Creating a Poll
+
+1. Enter a question in the poll title field.
+2. Add the desired poll options.
+3. Use **Add option** to dynamically create additional choices.
+4. Remove unwanted options using the remove button.
+5. Submit the form to create the poll.
+
+The poll is saved along with its associated options.
+
+### Voting
+
+1. Find a poll under **Available Polls**.
+2. Select an option.
+3. Click **Vote**.
+4. The vote count updates dynamically.
+
+## Validation
+
+Poll creation includes validation for:
+
+* Poll title is required
+* Poll title must contain at least 3 characters
+* Poll title cannot exceed 255 characters
+* Options must be provided as an array
+* A maximum of 10 options can be added
+* Individual options cannot be empty
+* Individual options cannot exceed 255 characters
+
+## Database Relationships
+
+The application uses Eloquent relationships to connect polls, options, and votes:
+
+```text
+Poll
+ └── hasMany → Options
+                 └── hasMany → Votes
+```
+
+This allows the application to retrieve each poll's options and calculate the number of votes associated with each option.
+
+## Learning Goals
+
+This project was built as a Laravel learning project to practise:
+
+* Laravel project structure
+* Livewire components
+* Reactive form handling
+* Dynamic form fields
+* Form validation
+* Eloquent models and relationships
+* Database migrations
+* Creating related records
+* Handling user interactions without full page reloads
+* Blade templates
+* Tailwind CSS
+* SQLite database development
+
+## Future Improvements
+
+Potential improvements for the project include:
+
+* Preventing users from voting multiple times on the same poll
+* Adding user authentication
+* Displaying poll results using percentage-based charts
+* Adding the ability to edit or delete polls
+* Adding poll expiration dates
+* Adding pagination for larger numbers of polls
+* Improving vote tracking and validation
