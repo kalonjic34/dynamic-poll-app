@@ -51,9 +51,19 @@
 <body class="min-h-screen px-4 py-8 sm:px-6 sm:py-14">
   @livewireScripts
 
+
   <main class="mx-auto max-w-2xl">
     @livewire('create-poll')
+
+
+
+    <section class="mt-8">
+      <h2 class="mb-4 text-2xl font-bold text-slate-900">Available Polls</h2>
+      @livewire('polls')
+    </section>
+
   </main>
+
 </body>
 
 </html>
