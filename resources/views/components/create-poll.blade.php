@@ -8,6 +8,16 @@ new class extends Component
     public $title;
     public $options=['First'];
 
+    protected $rules =[
+        'title'=>'required|min:3|max:255',
+        'options'=>'required|array|min:1|max:10',
+        'options.*'=>'required|min:1|max:255',
+    ];
+
+    protected $messages =[
+        'options.*' => 'The option cant be empty.'
+    ];
+
     public function render(){
         return view('create-poll');
     }
@@ -20,7 +30,12 @@ new class extends Component
         $this->options = array_values($this->options);
     }
 
+    public function updated($propertyName){
+        $this->validateOnly($propertyName);
+    }
+
     public function createPoll(){
+        $this->validate();
         Poll::create([
             'title' => $this->title
         ])->options()->createMany(
@@ -48,6 +63,10 @@ new class extends Component
         <div>
             <label for="poll-title">Poll title</label>
             <input id="poll-title" type="text" wire:model="title" placeholder="What should we decide?" />
+
+            @error('title')
+                <div class="text-red-500">{{ $message }}</div>
+            @enderror
         </div>
 
         <div>
@@ -66,8 +85,12 @@ new class extends Component
                 <div class="flex items-center gap-3">
                     <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-cyan-50 text-sm font-bold text-cyan-700">{{ $index + 1 }}</span>
                     <input id="poll-option-{{ $index }}" type="text" wire:model="options.{{ $index }}" placeholder="Option {{ $index + 1 }}" />
+                   
                     <button type="button" class="btn btn-remove px-2" wire:click.prevent="removeOption({{ $index }})" aria-label="Remove option {{ $index + 1 }}" title="Remove option">x</button>
                 </div>
+                 @error('options.' . $index)
+                <div class="text-red-500">{{ $message }}</div>
+            @enderror
 
             @endforeach
             </div>
