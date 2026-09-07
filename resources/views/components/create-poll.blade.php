@@ -1,6 +1,7 @@
 <?php
 
 use Livewire\Component;
+use App\Models\Poll;
 
 new class extends Component
 {
@@ -19,6 +20,20 @@ new class extends Component
         $this->options = array_values($this->options);
     }
 
+    public function createPoll(){
+        Poll::create([
+            'title' => $this->title
+        ])->options()->createMany(
+            collect($this->options)->map(fn ($option)=>['name'=>$option])
+            ->all()
+        );
+        // foreach ($this->options as $optionName) {
+        //     $poll->options()->create(['name'=>$optionName]);
+        // }
+
+        $this->reset(['title','options']);
+    }
+
 };
 ?>
 
@@ -29,7 +44,7 @@ new class extends Component
         <p class="mt-1 text-sm text-slate-500">Give people a clear question and a few choices.</p>
     </div>
 
-    <form action="" class="space-y-7 px-6 py-6 sm:px-8 sm:py-8">
+    <form wire:submit.prevent="createPoll" action="" class="space-y-7 px-6 py-6 sm:px-8 sm:py-8">
         <div>
             <label for="poll-title">Poll title</label>
             <input id="poll-title" type="text" wire:model="title" placeholder="What should we decide?" />
@@ -56,6 +71,8 @@ new class extends Component
 
             @endforeach
             </div>
+
+            <button class="btn" type="submit">Create Poll</button>
             
         </div>
 
