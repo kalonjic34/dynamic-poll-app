@@ -57,9 +57,14 @@
 
 
 
-    <section class="mt-8">
-      <h2 class="mb-4 text-2xl font-bold text-slate-900">Available Polls</h2>
-      @livewire('polls')
+    <section class="mt-8 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-200/60">
+      <div class="border-b border-slate-100 bg-slate-50/70 px-6 py-6 sm:px-8">
+        <h2 class="text-2xl font-bold tracking-tight text-slate-900">Available Polls</h2>
+        <p class="mt-1 text-sm text-slate-500">Choose an option to cast your vote.</p>
+      </div>
+      <div class="px-6 py-6 sm:px-8 sm:py-8">
+        @livewire('polls')
+      </div>
     </section>
 
   </main>
